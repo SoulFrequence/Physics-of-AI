@@ -13,6 +13,8 @@ public class FlockManager : MonoBehaviour
 
     public Vector3 swimLims = new Vector3(5, 5, 5);
 
+    public Vector3 goalPos;
+
     [Header("Fish Settings")]
     [Range(0.0f, 5.0f)]
     public float minSpeed;
@@ -37,11 +39,14 @@ public class FlockManager : MonoBehaviour
 
             allFish[i].GetComponent<Flock>().myManager = this;
         }
-
+        goalPos = this.transform.position;
     }
     // Update is called once per frame
     void Update()
     {
+        if (Random.Range(0, 100) < 10){
 
-    }
+            goalPos = this.transform.position + new Vector3(Random.Range(-swimLims.x, swimLims.x), Random.Range(-swimLims.y, swimLims.y), Random.Range(-swimLims.z, swimLims.z));
+        }
+    }  
 }
