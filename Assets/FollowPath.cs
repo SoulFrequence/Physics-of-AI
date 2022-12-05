@@ -18,7 +18,7 @@ public class FollowPath : MonoBehaviour
 
     GameObject currentNode;
 
-    int currentWayPoint = 0;
+    int currentWP = 0;
 
     Graph g;
 
@@ -34,37 +34,37 @@ public class FollowPath : MonoBehaviour
     }
 
 
-    public void ReturnToStart(){
+    public void DoALap(){
 
         g.AStar(currentNode, wps[16]);
 
-        currentWayPoint = 0;
+        currentWP = 0;
     }
 
     public void GoToRuin(){
 
         g.AStar(currentNode, wps[4]);
 
-        currentWayPoint = 0;
+        currentWP = 0;
     }
 
     void LateUpdate() {
    
-        if(g.getPathLength() == 0 || currentWayPoint == g.getPathLength()){
+        if(g.getPathLength() == 0 || currentWP == g.getPathLength()){
 
             return;
         }
 
-        currentNode = g.getPathPoint(currentWayPoint);
+        currentNode = g.getPathPoint(currentWP);
 
-        if(Vector3.Distance(g.getPathPoint(currentWayPoint).transform.position, transform.position) < accuracy){
+        if(Vector3.Distance(g.getPathPoint(currentWP).transform.position, transform.position) < accuracy){
 
-            currentWayPoint++;
+            currentWP++;
         }
 
-        if(currentWayPoint < g.getPathLength()){
+        if(currentWP < g.getPathLength()){
 
-            goal = g.getPathPoint(currentWayPoint).transform;
+            goal = g.getPathPoint(currentWP).transform;
 
             Vector3 lookAtGoal = new Vector3(goal.position.x, this.transform.position.y, goal.position.z);
 
