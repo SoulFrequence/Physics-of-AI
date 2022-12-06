@@ -9,13 +9,13 @@ namespace Unity.MLAgentsExamples
     {
         /// <summary>
         /// Write the observations to the output buffer. This size of the buffer will be product
-        /// of the Shape array values returned by <see cref="ObservationSpec"/>.
+        /// of the sizes returned by <see cref="GetObservationShape"/>.
         /// </summary>
         /// <param name="output"></param>
         public abstract void WriteObservation(float[] output);
 
         /// <inheritdoc/>
-        public abstract ObservationSpec GetObservationSpec();
+        public abstract int[] GetObservationShape();
 
         /// <inheritdoc/>
         public abstract string GetName();
@@ -28,18 +28,18 @@ namespace Unity.MLAgentsExamples
         /// <returns>The number of elements written.</returns>
         public virtual int Write(ObservationWriter writer)
         {
-            // TODO reuse buffer for similar agents
+            // TODO reuse buffer for similar agents, don't call GetObservationShape()
             var numFloats = this.ObservationSize();
             float[] buffer = new float[numFloats];
             WriteObservation(buffer);
 
-            writer.AddList(buffer);
+            writer.AddRange(buffer);
 
             return numFloats;
         }
 
         /// <inheritdoc/>
-        public void Update() { }
+        public void Update() {}
 
         /// <inheritdoc/>
         public void Reset() { }
@@ -51,9 +51,9 @@ namespace Unity.MLAgentsExamples
         }
 
         /// <inheritdoc/>
-        public virtual CompressionSpec GetCompressionSpec()
+        public virtual SensorCompressionType GetCompressionType()
         {
-            return CompressionSpec.Default();
+            return SensorCompressionType.None;
         }
     }
 }
